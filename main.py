@@ -21,8 +21,8 @@ while True:
         data = json.loads(resp.text)
         temp_fine = float(data['main']['temp']) - kelvin
         temp = round(temp_fine)
-        tm.brightness(5)
-        tm.temperature(temp)
+        tm.brightness(3)
+        tm.number(temp)
     except ValueError:
         tm.show('er 1')
     except NameError:
@@ -34,6 +34,6 @@ while True:
     except:
         tm.show('er 0')
 
-    time.sleep(60)
+    time.sleep(600)
     tm.show('----')
     time.sleep(1)
