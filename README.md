@@ -8,10 +8,10 @@ Micropython application to show the current temperature from openweathermap on a
 1. Any computer with USB and Python installed
 1. A TM1637 display (https://playground.arduino.cc/Main/TM1637/)
 1. Make the following wired connections
-    1. Display Ground pin to ESP8266 board Ground
-    1. Display Vcc pin to ESP8266 board +3V
-    1. Display DIO pin to ESP8266 board GPIO 5 (D2 pin on my NodeMCU)
-    1. Display CLK pin to ESP8266 board GPIO 4 (D1 pin on my NodeMCU)
+    - Display Ground pin to ESP8266 board Ground
+    - Display Vcc pin to ESP8266 board +3V
+    - Display DIO pin to ESP8266 board GPIO 5 (D2 pin on my NodeMCU)
+    - Display CLK pin to ESP8266 board GPIO 4 (D1 pin on my NodeMCU)
     
     Note: 
     - The pin labels on your board may be different. Check the docs.
