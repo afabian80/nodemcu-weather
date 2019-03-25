@@ -35,5 +35,5 @@ while True:
         tm.show('er 0')
 
     time.sleep(600)
-    tm.show('----')
+    tm.show('----')  # just to see the the device is still alive
     time.sleep(1)
