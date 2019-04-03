@@ -5,6 +5,10 @@ URL = 'http://api.openweathermap.org/data/2.5/weather?q={0}&APPID={1}'
 KELVIN = 273.15
 
 
+class WeatherUpdateError(Exception):
+    pass
+
+
 class Weather:
     api_key = None
     location = None
@@ -15,7 +19,10 @@ class Weather:
         self.location = location
 
     def update(self):
-        resp = get(URL.format(self.location, self.api_key))
-        data = loads(resp.text)
-        temp_fine = float(data['main']['temp']) - KELVIN
-        self.temperature = round(temp_fine)
+        try:
+            resp = get(URL.format(self.location, self.api_key))
+            data = loads(resp.text)
+            temp_fine = float(data['main']['temp']) - KELVIN
+            self.temperature = round(temp_fine)
+        except:
+            raise WeatherUpdateError()

@@ -1,7 +1,7 @@
 from display import Display
 from config import Config
 from wifi import Wifi, WifiConnectError
-from weather import Weather
+from weather import Weather, WeatherUpdateError
 from time import sleep
 
 
@@ -47,6 +47,10 @@ def main():
         except WifiConnectError as e:
             print(e)
             display.show('E 11')
+            sleep(10)
+        except WeatherUpdateError as e:
+            print(e)
+            display.show('E 12')
             sleep(10)
         except Exception as e:
             print(e)
