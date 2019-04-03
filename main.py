@@ -1,39 +1,59 @@
-import tm1637
-from machine import Pin
-import urequests as requests
-import json
-import time
-import os
+from display import Display
+from config import Config
+from wifi import Wifi, WifiConnectError
+from weather import Weather
+from time import sleep
 
-tm = tm1637.TM1637(clk=Pin(5), dio=Pin(4))
-url = 'http://api.openweathermap.org/data/2.5/weather?q={0}&APPID={1}'
-kelvin = 273.15
 
-while True:
+def log_error(e):
+    with open('error.log', 'a') as f:
+        f.write(e)
+
+
+def main():
+    display = None
+    wifi = None
+    weather = None
     try:
-        f = open('api.key', 'r')
-        api_key = f.readline()
-        f.close()
-        f = open('location.txt', 'r')
-        location = f.readline()
-        f.close()
-        resp = requests.get(url.format(location, api_key))
-        data = json.loads(resp.text)
-        temp_fine = float(data['main']['temp']) - kelvin
-        temp = round(temp_fine)
-        tm.brightness(3)
-        tm.number(temp)
-    except ValueError:
-        tm.show('er 1')
-    except NameError:
-        tm.show('er 2')
-    except TypeError:
-        tm.show('er 3')
-    except IOError:
-        tm.show('er 4')
-    except:
-        tm.show('er 0')
+        display = Display(clk_pin=5, dio_pin=4, brightness=4)
+        config = Config(file_name='config.json')
+        weather = Weather(api_key=config.api_key, location=config.location)
+        wifi = Wifi(config.wifi_ssid, config.wifi_password)
+    except OSError as e:
+        print(e)
+        display.show('E 01')
+        log_error(e)
+        return
+    except KeyError as e:
+        print(e)
+        display.show('E 02')
+        log_error(e)
+        return
+    except Exception as e:
+        print(e)
+        display.show('E 09')
+        log_error(e)
+        return
 
-    time.sleep(600)
-    tm.show('----')  # just to see the the device is still alive
-    time.sleep(1)
+    while True:
+        try:
+            if not wifi.is_connected():
+                wifi.connect()
+            weather.update()
+            display.number(weather.temperature)
+            sleep(60)
+            display.show('UP  ')
+            sleep(1)
+        except WifiConnectError as e:
+            print(e)
+            display.show('E 11')
+            sleep(10)
+        except Exception as e:
+            print(e)
+            display.show('E 19')
+            log_error(e)
+            break
+
+
+if __name__ == '__main__':
+    main()
