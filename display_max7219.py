@@ -21,3 +21,6 @@ class DisplayMax:
 
     def number(self, num):
         self.show(num)
+
+    def set_brightness(self, val):
+        self.display.set_register(0x0a, val)
