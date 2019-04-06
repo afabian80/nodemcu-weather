@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function put_all() {
-    for f in boot.py config.json config.py display.py main.py tm1637.py urequests.py weather.py wifi.py
+    for f in boot.py config.json config.py display_tm137.py display_max7219.py main.py tm1637.py max7219_4digit.py urequests.py weather.py wifi.py
     do
         echo "Putting ${f}..."
         ampy -p /dev/ttyUSB0 put ${f}

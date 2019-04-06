@@ -1,4 +1,5 @@
-from display import Display
+from display_tm137 import DisplayTm
+from display_max7219 import DisplayMax
 from config import Config
 from wifi import Wifi, WifiConnectError
 from weather import Weather, WeatherUpdateError
@@ -15,7 +16,8 @@ def main():
     wifi = None
     weather = None
     try:
-        display = Display(clk_pin=5, dio_pin=4, brightness=4)
+        # display = DisplayTm(clk_pin=5, dio_pin=4, brightness=4)
+        display = DisplayMax(sck_pin=14, mosi_pin=13, miso_pin=12, ss_pin=16, brightness=15)
         config = Config(file_name='config.json')
         weather = Weather(api_key=config.api_key, location=config.location)
         wifi = Wifi(config.wifi_ssid, config.wifi_password)

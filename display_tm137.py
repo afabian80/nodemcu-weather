@@ -3,7 +3,7 @@ from machine import Pin
 from utime import sleep_ms
 
 
-class Display:
+class DisplayTm:
     display = None
 
     def __init__(self, clk_pin, dio_pin, brightness):
